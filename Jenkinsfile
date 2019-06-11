@@ -1,5 +1,5 @@
 
-node('dev43') {
+node('docker22') {
 // Delete the workspace
 //deleteDir()
      def app
@@ -18,7 +18,7 @@ try {
       }
      }
           stage('build image') {
-        app = docker.build("shanmukha443/new43:docker${env.BUILD_NUMBER}")
+        app = docker.build("parthu11/testing:docker${env.BUILD_NUMBER}")
        }
    
           stage('Push image') {
@@ -26,15 +26,15 @@ try {
          * First, the incremental build number from Jenkins
          * Second, the 'latest' tag.
          * Pushing multiple tags is cheap, as all the layers are reused. */
-        docker.withRegistry('https://registry.hub.docker.com', 'docker-samba') {
+        docker.withRegistry('https://registry.hub.docker.com', 'docker') {
             app.push("docker${env.BUILD_NUMBER}")
            
          }
           }
     
    stage('Deploy') {
-        sh "/bin/cp -f $WORKSPACE/Build-${env.BUILD_NUMBER}/vsvyadav_${env.BRANCH_NAME}${env.BUILD_NUMBER}.war /opt/apache-tomcat-8.5.37/webapps/vsvyadav.war"
-        sh " sh /opt/apache-tomcat-8.5.37/bin/startup.sh"
+        sh "/bin/cp -f $WORKSPACE/Build-${env.BUILD_NUMBER}/vsvyadav_${env.BRANCH_NAME}${env.BUILD_NUMBER}.war /opt/apache-tomcat-8.5.42/webapps/vsvyadav.war"
+        sh " sh /opt/apache-tomcat-8.5.42/bin/startup.sh"
    }
   
    delivery.artifactory()
